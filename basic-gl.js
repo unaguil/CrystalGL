@@ -1,7 +1,10 @@
 var gl = null; // global variable to store WebGL context
 
-var mvMatrix = mat4.create();
-var pMatrix = mat4.create();
+var mvMatrix = mat4.create(); // model-view matrix
+var pMatrix = mat4.create(); // perspective matrix
+
+var pUniform = null; 	// reference to perspective uniform
+var mvUniform = null; // reference to model-view uniform
 
 function initWebGL(canvas) {
 	var gl = null;
@@ -74,10 +77,12 @@ function getShader(gl, id) {
 	return shader;
 }
 
-function setMatrixUniforms() {
-	var pUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
-	gl.uniformMatrix4fv(pUniform, false, pMatrix);
+function getMatrixUniforms() {
+	pUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
+	mvUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+}
 
-	var mvUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+function setMatrixUniforms() {
+	gl.uniformMatrix4fv(pUniform, false, pMatrix);
 	gl.uniformMatrix4fv(mvUniform, false, mvMatrix);
 }
