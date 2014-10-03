@@ -13,6 +13,27 @@ CrystalGL.Structure = function(name, a1, a2, a3) {
 		this.axes.visible = !this.axes.visible;
 	}
 
+	this.createLattice = function(maxN) {
+		var lattice = new THREE.Object3D();
+
+		for (i = -maxN; i <= maxN; i++) {
+			for (j = -maxN; j <= maxN; j++) {
+				for (k = -maxN; k <= maxN; k++) {
+					var base = createDefaultBase(); // object mesh should be reused
+
+					var pBase = this.a[0].clone().multiplyScalar(i);
+					pBase.add(this.a[1].clone().multiplyScalar(j));
+					pBase.add(this.a[2].clone().multiplyScalar(k));
+					
+					lattice.add(base);
+					base.position.copy(pBase);
+				}
+			}
+		}
+
+		return lattice;
+	}
+
 	// prepare axis objects
 	function createAxis(label, direction) {
 		var axis = new THREE.ArrowHelper(
@@ -41,6 +62,16 @@ CrystalGL.Structure = function(name, a1, a2, a3) {
 	this.axes.add(createAxis("a3", this.a[2]));
 
 	this.mainObj.add(this.axes);
+
+	this.mainObj.add(this.createLattice(1));
+
+	function createDefaultBase() {
+		var geometry = new THREE.SphereGeometry(0.1, 16, 16);
+		var material = new THREE.MeshBasicMaterial({color: 0xFFFF00});
+		var sphere = new THREE.Mesh(geometry, material);
+
+		return sphere;
+	}
 
 	this.getObject3D = function() {
 		return this.mainObj;
