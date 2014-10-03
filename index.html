@@ -147,9 +147,14 @@ function updateGeometry() {
 }
 
 function doKeyPress(e) {
-	if (e.keyCode == 97) {
-		structure.toogleDrawPrimitives();
-	}
+	switch (e.keyCode) {
+		case 97: 	structure.tooglePrimitives();
+					break;
+
+		case 108: 	structure.toogleLattice();
+					break;
+		default: 	console.log(e.keyCode); 
+	};
 }
 
 </script>

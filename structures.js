@@ -9,7 +9,7 @@ CrystalGL.Structure = function(name, a1, a2, a3) {
 
 	this.axes = new THREE.Object3D();
 
-	this.toogleDrawPrimitives = function() {
+	this.tooglePrimitives = function() {
 		this.axes.visible = !this.axes.visible;
 	}
 
@@ -19,7 +19,7 @@ CrystalGL.Structure = function(name, a1, a2, a3) {
 		for (i = -maxN; i <= maxN; i++) {
 			for (j = -maxN; j <= maxN; j++) {
 				for (k = -maxN; k <= maxN; k++) {
-					var base = createDefaultBase(); // object mesh should be reused
+					var base = createDefaultBase(); // object mesh should be shared
 
 					var pBase = this.a[0].clone().multiplyScalar(i);
 					pBase.add(this.a[1].clone().multiplyScalar(j));
@@ -63,7 +63,9 @@ CrystalGL.Structure = function(name, a1, a2, a3) {
 
 	this.mainObj.add(this.axes);
 
-	this.mainObj.add(this.createLattice(1));
+	this.lattice = this.createLattice(1);
+
+	this.mainObj.add(this.lattice);
 
 	function createDefaultBase() {
 		var geometry = new THREE.SphereGeometry(0.1, 16, 16);
@@ -76,6 +78,10 @@ CrystalGL.Structure = function(name, a1, a2, a3) {
 	this.getObject3D = function() {
 		return this.mainObj;
 	}  
+
+	this.toogleLattice = function() {
+		this.lattice.visible = !this.lattice.visible;
+	}
 }
 
 CrystalGL.createSC = function() {
