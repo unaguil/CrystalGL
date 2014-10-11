@@ -51,6 +51,14 @@ function addBase(point, lattice) {
 	base.position.copy(point);
 }
 
+function createUnitCube() {
+	var geometry = new THREE.BoxGeometry(1, 1, 1);
+	var material = new THREE.MeshBasicMaterial({color: 0xFF0000, wireframe: true});
+	var cube = new THREE.Mesh(geometry, material);
+
+	return cube;
+}
+
 CrystalGL.Structure = function(name, a1, a2, a3) {
 	this.name = name;
 	this.a = [ a1, a2, a3 ];
@@ -79,6 +87,11 @@ CrystalGL.Structure = function(name, a1, a2, a3) {
 
 	console.log(primitiveCellPoints);
 
+	this.unitCube = createUnitCube();
+
+	this.mainObj.add(this.unitCube);
+	this.unitCube.position.set(0.5, 0.5, 0.5);
+
 	this.getObject3D = function() {
 		return this.mainObj;
 	}  
@@ -86,6 +99,10 @@ CrystalGL.Structure = function(name, a1, a2, a3) {
 	this.toogleLattice = function() {
 		this.lattice.visible = !this.lattice.visible;
 	} 
+
+	this.toogleUnitCube = function() {
+		this.unitCube.visible = !this.unitCube.visible;
+	}
 }
 
 CrystalGL.createSC = function() {

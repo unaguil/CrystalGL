@@ -125,6 +125,10 @@ function doKeyPress(e) {
 
 		case 108: 	structure.toogleLattice();
 					break;
+
+		case 117: 	structure.toogleUnitCube();
+					break;
+					 
 		default: 	console.log(e.keyCode); 
 	};
 }
