@@ -31,10 +31,10 @@ function createAxis(label, direction) {
 	return axis;
 }
 
-function walkLattice(vectors, maxN, pointFunc, funcData) {
-	for (i = -maxN; i <= maxN; i++) {
-		for (j = -maxN; j <= maxN; j++) {
-			for (k = -maxN; k <= maxN; k++) {
+function walkLattice(vectors, minN, maxN, pointFunc, funcData) {
+	for (i = minN; i <= maxN; i++) {
+		for (j = minN; j <= maxN; j++) {
+			for (k = minN; k <= maxN; k++) {
 				var point = vectors[0].clone().multiplyScalar(i);
 				point.add(vectors[1].clone().multiplyScalar(j));
 				point.add(vectors[2].clone().multiplyScalar(k));
@@ -43,6 +43,14 @@ function walkLattice(vectors, maxN, pointFunc, funcData) {
 			}
 		}
 	}
+}
+
+function walkPrimitiveCell(vectors, pointFunc, funcData) {
+	walkLattice(vectors, 0, 1, pointFunc, funcData);
+}
+
+function savePoints(point, savedPoints) {
+	savedPoints.push(point);
 }
 
 function addBase(point, lattice) {
@@ -70,9 +78,14 @@ CrystalGL.Structure = function(name, a1, a2, a3) {
 	this.mainObj.add(this.axes);
 
 	this.lattice = new THREE.Object3D();
-	walkLattice(this.a, 1, addBase, this.lattice);
+	walkLattice(this.a, -1, 1, addBase, this.lattice);
 
 	this.mainObj.add(this.lattice);
+
+	var primitiveCellPoints = [];
+	walkPrimitiveCell(this.a, savePoints, primitiveCellPoints);
+
+	console.log(primitiveCellPoints);
 
 	this.getObject3D = function() {
 		return this.mainObj;
