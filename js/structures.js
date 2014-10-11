@@ -68,7 +68,7 @@ CrystalGL.Structure = function(name, a1, a2, a3) {
 	this.mainObj.add(this.lattice);
 
 	function createDefaultBase() {
-		var geometry = new THREE.SphereGeometry(0.1, 16, 16);
+		var geometry = new THREE.SphereGeometry(0.025, 16, 16);
 		var material = new THREE.MeshBasicMaterial({color: 0xFFFF00});
 		var sphere = new THREE.Mesh(geometry, material);
 
