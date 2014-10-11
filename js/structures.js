@@ -103,6 +103,20 @@ CrystalGL.createSC = function() {
 	return new CrystalGL.Structure("Simple Cubic", a1, a2, a3); 
 }
 
+CrystalGL.createBCC = function() {
+	a1 = new THREE.Vector3(-0.5, 0.5, 0.5);
+	a2 = new THREE.Vector3(0.5, -0.5, 0.5);
+	a3 = new THREE.Vector3(0.5, 0.5, -0.5);
+	return new CrystalGL.Structure("Body Centered Cubic", a1, a2, a3); 
+}
+
+CrystalGL.createFCC = function() {
+	a1 = new THREE.Vector3(0, 0.5, 0.5);
+	a2 = new THREE.Vector3(0.5, 0, 0.5);
+	a3 = new THREE.Vector3(0.5, 0.5, 0);
+	return new CrystalGL.Structure("Face Centered Cubic", a1, a2, a3); 
+}
+
 function degToRad(deg) {
 	return 2 * Math.PI * deg / 360;
 }

@@ -36,7 +36,7 @@ function setupScene() {
 	//addMesh();
 	addLight();
 
-	structure = new CrystalGL.createSC();
+	structure = CrystalGL.createSC();
 	scene.add(structure.getObject3D());	
 }
 			
@@ -127,4 +127,23 @@ function doKeyPress(e) {
 					break;
 		default: 	console.log(e.keyCode); 
 	};
+}
+
+function handleClick(button) {
+    switch (button.id) {
+		case 'sc-lattice': 	scene.remove(structure.getObject3D());
+							structure = CrystalGL.createSC();
+							scene.add(structure.getObject3D());
+		break;
+
+		case 'bcc-lattice': scene.remove(structure.getObject3D());
+							structure = CrystalGL.createBCC();
+							scene.add(structure.getObject3D());
+		break;
+
+		case 'fcc-lattice': scene.remove(structure.getObject3D());
+							structure = CrystalGL.createFCC();
+							scene.add(structure.getObject3D());
+		break;
+    }
 }
