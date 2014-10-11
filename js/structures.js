@@ -10,23 +10,15 @@ function createDefaultBase() {
 }
 
 function createAxis(label, direction) {
-	var axis = new THREE.ArrowHelper(
-		direction, 
-		new THREE.Vector3(0, 0, 0),
-		1, 
-		0x0000FF
-	);
+	var geometry = new THREE.Geometry();
+    geometry.vertices.push(new THREE.Vector3(0, 0, 0));
+    geometry.vertices.push(direction);
 
-  	var label = new THREE.Mesh(
-  		new THREE.TextGeometry(label, { size: 0.1, height: 0.05 }), 
-  		new THREE.MeshNormalMaterial({color: 0x0000FF})
-	);
+  	var material = new THREE.LineBasicMaterial({
+        color: 0x0000ff
+    });
 
-	//axis.add(label);
-
-	label.position.set(-0.1, 0.1, 0);
-
-	label.rotation.set(0, 0, degToRad(90));
+    var axis = new THREE.Line(geometry, material);
 
 	return axis;
 }
