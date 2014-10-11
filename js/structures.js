@@ -1,6 +1,36 @@
 
 var CrystalGL = CrystalGL || {};
 
+function createDefaultBase() {
+	var geometry = new THREE.SphereGeometry(0.025, 16, 16);
+	var material = new THREE.MeshBasicMaterial({color: 0xFFFF00});
+	var sphere = new THREE.Mesh(geometry, material);
+
+	return sphere;
+}
+
+function createAxis(label, direction) {
+	var axis = new THREE.ArrowHelper(
+		direction, 
+		new THREE.Vector3(0, 0, 0),
+		1, 
+		0x0000FF
+	);
+
+  	var label = new THREE.Mesh(
+  		new THREE.TextGeometry(label, { size: 0.1, height: 0.05 }), 
+  		new THREE.MeshNormalMaterial({color: 0x0000FF})
+	);
+
+	//axis.add(label);
+
+	label.position.set(-0.1, 0.1, 0);
+
+	label.rotation.set(0, 0, degToRad(90));
+
+	return axis;
+}
+
 CrystalGL.Structure = function(name, a1, a2, a3) {
 	this.name = name;
 	this.a = [ a1, a2, a3 ];
@@ -34,29 +64,6 @@ CrystalGL.Structure = function(name, a1, a2, a3) {
 		return lattice;
 	}
 
-	// prepare axis objects
-	function createAxis(label, direction) {
-		var axis = new THREE.ArrowHelper(
-			direction, 
-			new THREE.Vector3(0, 0, 0),
-			1, 
-			0x0000FF
-		);
-
-	  	var label = new THREE.Mesh(
-	  		new THREE.TextGeometry(label, { size: 0.1, height: 0.05 }), 
-	  		new THREE.MeshNormalMaterial({color: 0x0000FF})
-		);
-
-		//axis.add(label);
-
-		label.position.set(-0.1, 0.1, 0);
-
-		label.rotation.set(0, 0, degToRad(90));
-
-		return axis;
-	}
-
 	this.axes.add(createAxis("a1", this.a[0]));
 	this.axes.add(createAxis("a2", this.a[1]));
 	this.axes.add(createAxis("a3", this.a[2]));
@@ -67,21 +74,13 @@ CrystalGL.Structure = function(name, a1, a2, a3) {
 
 	this.mainObj.add(this.lattice);
 
-	function createDefaultBase() {
-		var geometry = new THREE.SphereGeometry(0.025, 16, 16);
-		var material = new THREE.MeshBasicMaterial({color: 0xFFFF00});
-		var sphere = new THREE.Mesh(geometry, material);
-
-		return sphere;
-	}
-
 	this.getObject3D = function() {
 		return this.mainObj;
 	}  
 
 	this.toogleLattice = function() {
 		this.lattice.visible = !this.lattice.visible;
-	}
+	} 
 }
 
 CrystalGL.createSC = function() {
