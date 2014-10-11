@@ -31,6 +31,26 @@ function createAxis(label, direction) {
 	return axis;
 }
 
+function walkLattice(vectors, maxN, pointFunc, funcData) {
+	for (i = -maxN; i <= maxN; i++) {
+		for (j = -maxN; j <= maxN; j++) {
+			for (k = -maxN; k <= maxN; k++) {
+				var point = vectors[0].clone().multiplyScalar(i);
+				point.add(vectors[1].clone().multiplyScalar(j));
+				point.add(vectors[2].clone().multiplyScalar(k));
+				
+				pointFunc(point, funcData);
+			}
+		}
+	}
+}
+
+function addBase(point, lattice) {
+	var base = createDefaultBase(); // object mesh should be shared
+	lattice.add(base);
+	base.position.copy(point);
+}
+
 CrystalGL.Structure = function(name, a1, a2, a3) {
 	this.name = name;
 	this.a = [ a1, a2, a3 ];
@@ -43,34 +63,14 @@ CrystalGL.Structure = function(name, a1, a2, a3) {
 		this.axes.visible = !this.axes.visible;
 	}
 
-	this.createLattice = function(maxN) {
-		var lattice = new THREE.Object3D();
-
-		for (i = -maxN; i <= maxN; i++) {
-			for (j = -maxN; j <= maxN; j++) {
-				for (k = -maxN; k <= maxN; k++) {
-					var base = createDefaultBase(); // object mesh should be shared
-
-					var pBase = this.a[0].clone().multiplyScalar(i);
-					pBase.add(this.a[1].clone().multiplyScalar(j));
-					pBase.add(this.a[2].clone().multiplyScalar(k));
-					
-					lattice.add(base);
-					base.position.copy(pBase);
-				}
-			}
-		}
-
-		return lattice;
-	}
-
 	this.axes.add(createAxis("a1", this.a[0]));
 	this.axes.add(createAxis("a2", this.a[1]));
 	this.axes.add(createAxis("a3", this.a[2]));
 
 	this.mainObj.add(this.axes);
 
-	this.lattice = this.createLattice(1);
+	this.lattice = new THREE.Object3D();
+	walkLattice(this.a, 1, addBase, this.lattice);
 
 	this.mainObj.add(this.lattice);
 
