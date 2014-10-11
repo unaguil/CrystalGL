@@ -47,66 +47,7 @@ function setupCamera() {
 	scene.add(camera);
 
 	controls = new THREE.OrbitControls(camera, renderer.domElement);
-}
-			
-function addMesh() {	
-	var material = new THREE.LineBasicMaterial({
-		color: 0x0000ff
-	});
-
-	var geometry = new THREE.Geometry();
-		geometry.vertices.push(
-			new THREE.Vector3( -1, 1, -1 ),
-			new THREE.Vector3( 1, 1, -1 ),
-			new THREE.Vector3( 1, -1, -1 ),
-			new THREE.Vector3( -1, -1, -1 ),
-			new THREE.Vector3( -1, 1, -1 )
-	);
-
-	var back = new THREE.Line(geometry, material);
-
-	var geometry = new THREE.Geometry();
-		geometry.vertices.push(
-			new THREE.Vector3( -1, 1, 1 ),
-			new THREE.Vector3( 1, 1, 1 ),
-			new THREE.Vector3( 1, -1, 1 ),
-			new THREE.Vector3( -1, -1, 1 ),
-			new THREE.Vector3( -1, 1, 1 )
-	);
-
-	var front = new THREE.Line(geometry, material);
-
-	var geometry = new THREE.Geometry();
-		geometry.vertices.push(
-			new THREE.Vector3( -1, 1, -1 ),
-			new THREE.Vector3( -1, 1, 1 ),
-			new THREE.Vector3( 1, 1, 1 ),
-			new THREE.Vector3( 1, 1, -1 ),
-			new THREE.Vector3( -1, 1, -1 )
-	);
-
-	var top = new THREE.Line(geometry, material);
-	
-	var geometry = new THREE.Geometry();
-		geometry.vertices.push(
-			new THREE.Vector3( -1, -1, -1 ),
-			new THREE.Vector3( -1, -1, 1 ),
-			new THREE.Vector3( 1, -1, 1 ),
-			new THREE.Vector3( 1, -1, -1 ),
-			new THREE.Vector3( -1, -1, -1 )
-	);
-
-	var bottom = new THREE.Line(geometry, material);
-
-	object = new THREE.Object3D();
-
-	object.add(back);
-	object.add(front);
-	object.add(top);
-	object.add(bottom);
-
-	scene.add(object);
-}		
+}	
 
 function addLight() {
 	var light = new THREE.PointLight(0xFFFFFF);
@@ -128,7 +69,7 @@ function doKeyPress(e) {
 
 		case 117: 	structure.toogleUnitCube();
 					break;
-					 
+
 		default: 	console.log(e.keyCode); 
 	};
 }

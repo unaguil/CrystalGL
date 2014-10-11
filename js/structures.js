@@ -50,11 +50,62 @@ function addBase(point, lattice) {
 	lattice.add(base);
 	base.position.copy(point);
 }
+		
+function createUnitCube() {	
+	var material = new THREE.LineBasicMaterial({
+		color: 0xFF0000
+	});
 
-function createUnitCube() {
-	var geometry = new THREE.BoxGeometry(1, 1, 1);
-	var material = new THREE.MeshBasicMaterial({color: 0xFF0000, wireframe: true});
-	var cube = new THREE.Mesh(geometry, material);
+	var geometry = new THREE.Geometry();
+		geometry.vertices.push(
+			new THREE.Vector3( -0.5, 0.5, -0.5 ),
+			new THREE.Vector3( 0.5, 0.5, -0.5 ),
+			new THREE.Vector3( 0.5, -0.5, -0.5 ),
+			new THREE.Vector3( -0.5, -0.5, -0.5 ),
+			new THREE.Vector3( -0.5, 0.5, -0.5 )
+	);
+
+	var back = new THREE.Line(geometry, material);
+
+	var geometry = new THREE.Geometry();
+		geometry.vertices.push(
+			new THREE.Vector3( -0.5, 0.5, 0.5 ),
+			new THREE.Vector3( 0.5, 0.5, 0.5 ),
+			new THREE.Vector3( 0.5, -0.5, 0.5 ),
+			new THREE.Vector3( -0.5, -0.5, 0.5 ),
+			new THREE.Vector3( -0.5, 0.5, 0.5 )
+	);
+
+	var front = new THREE.Line(geometry, material);
+
+	var geometry = new THREE.Geometry();
+		geometry.vertices.push(
+			new THREE.Vector3( -0.5, 0.5, -0.5 ),
+			new THREE.Vector3( -0.5, 0.5, 0.5 ),
+			new THREE.Vector3( 0.5, 0.5, 0.5 ),
+			new THREE.Vector3( 0.5, 0.5, -0.5 ),
+			new THREE.Vector3( -0.5, 0.5, -0.5 )
+	);
+
+	var top = new THREE.Line(geometry, material);
+	
+	var geometry = new THREE.Geometry();
+		geometry.vertices.push(
+			new THREE.Vector3( -0.5, -0.5, -0.5 ),
+			new THREE.Vector3( -0.5, -0.5, 0.5 ),
+			new THREE.Vector3( 0.5, -0.5, 0.5 ),
+			new THREE.Vector3( 0.5, -0.5, -0.5 ),
+			new THREE.Vector3( -0.5, -0.5, -0.5 )
+	);
+
+	var bottom = new THREE.Line(geometry, material);
+
+	cube = new THREE.Object3D();
+
+	cube.add(back);
+	cube.add(front);
+	cube.add(top);
+	cube.add(bottom);
 
 	return cube;
 }
